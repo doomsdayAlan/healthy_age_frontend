@@ -1,3 +1,10 @@
+// Detectar el sistema operativo
+def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+
+// Configurar la ruta del SDK y JAVA_HOME según el sistema operativo
+def javaHomePath = isWindows ? "C:/Program Files/Java/jdk-20" : "/opt/jdk-20.0.2"
+def sdkDirPath = isWindows ? "C:/Users/swate/AppData/Local/Android/Sdk" : "/home/swately/Android/Sdk"
+
 buildscript {
     ext {
         buildToolsVersion = "34.0.0"
@@ -12,10 +19,30 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle")
+        // Mantén solo una versión de com.android.tools.build:gradle
+        classpath("com.android.tools.build:gradle:8.1.0")
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+project.ext {
+    excludeAppGlideModule = true
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://www.jitpack.io' }
+    }
+}
+
+// Configuración global de JAVA_HOME
+gradle.projectsLoaded {
+    System.setProperty('org.gradle.java.home', javaHomePath)
+    project.extensions.extraProperties.set("android.sdkDirectory", file(sdkDirPath))
+}
+
