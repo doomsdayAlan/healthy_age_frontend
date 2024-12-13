@@ -1,8 +1,13 @@
-import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-const scaleImage = (size: number) => size * PixelRatio.get();
+const guidelineBaseWidth = 375; // Base del diseño (ancho)
+const guidelineBaseHeight = 812; // Base del diseño (alto)
+
+const scaleWidth = (size: number) => (width / guidelineBaseWidth) * size;
+const scaleHeight = (size: number) => (height / guidelineBaseHeight) * size;
+const scale = (size: number) => Math.min(scaleWidth(size), scaleHeight(size));
 
 export const ImageStyles = StyleSheet.create({
     Logo: {
@@ -16,78 +21,76 @@ export const ImageStyles = StyleSheet.create({
     },
 
     BackArrow: {
-        width: scaleImage(18),
-        height: scaleImage(18),
+        width: scale(50), // Ajustado con escala proporcional
+        height: scale(50), // Ajustado con escala proporcional
     },
 
-    NewAccountIcons:{
-        width: scaleImage(30),
-        height: scaleImage(30),
+    NewAccountIcons: {
+        width: scale(50), // Ajustado con escala proporcional
+        height: scale(50), // Ajustado con escala proporcional
     },
 
-    MainPageUserIconStyle:{
-        width: scaleImage(25),
-        height: scaleImage(25),
-        marginRight: scaleImage(10),
+    MainPageUserIconStyle: {
+        width: scale(25), // Ajustado con escala proporcional
+        height: scale(25), // Ajustado con escala proporcional
+        marginRight: scale(10), // Ajustado con escala proporcional
     },
 
-    ProfileScreenIconStyle:{
-        width: scaleImage(60),
-        height: scaleImage(60),
+    ProfileScreenIconStyle: {
+        width: scale(60), // Ajustado con escala proporcional
+        height: scale(60), // Ajustado con escala proporcional
     },
 
     MainPageIconStyle: {
-        width: scaleImage(10),
-        height: scaleImage(10),
-        margin: scaleImage(2),
+        width: scale(10), // Ajustado con escala proporcional
+        height: scale(10), // Ajustado con escala proporcional
+        margin: scale(2), // Ajustado con escala proporcional
     },
 
     TabMenuIconStyle: {
-        width: scaleImage(15),
-        height: scaleImage(15),
-        marginHorizontal: scaleImage(8),
-        
+        width: '100%',
+        height: '100%',
+        alignSelf: 'center',
     },
 
     highlight: {
-        borderBottomWidth: 2,
+        borderBottomWidth: scale(2), // Ajustado con escala proporcional
         borderBottomColor: '#029CA7',
-        paddingBottom: 5,
+        paddingBottom: scale(5), // Ajustado con escala proporcional
     },
 
     IconPatientListMainMenu: {
-        width: 38,
-        height: 38,
+        width: scale(38), // Ajustado con escala proporcional
+        height: scale(38), // Ajustado con escala proporcional
         borderRadius: 50,
         alignSelf: 'center',
         resizeMode: 'cover',
         overflow: 'hidden',
-        marginLeft: scaleImage(5),
-        marginRight: scaleImage(10),
+        marginLeft: scale(5), // Ajustado con escala proporcional
+        marginRight: scale(10), // Ajustado con escala proporcional
     },
 
     IconPatientListScreen: {
-        width: scaleImage(50),
-        height: scaleImage(50),
+        width: scale(50), // Ajustado con escala proporcional
+        height: scale(50), // Ajustado con escala proporcional
         borderRadius: 100,
         alignSelf: 'center',
         resizeMode: 'cover',
-        marginLeft: scaleImage(5),
-        marginVertical: scaleImage(3),
+        marginLeft: scale(5), // Ajustado con escala proporcional
+        marginVertical: scale(3), // Ajustado con escala proporcional
         overflow: 'hidden',
     },
 
     AddIcon: {
-        width: scaleImage(10),
-        height: scaleImage(10),
-        marginLeft: scaleImage(5),
-        marginTop: scaleImage(4),
+        width: scale(30), // Ajustado con escala proporcional
+        height: scale(30), // Ajustado con escala proporcional
+        marginLeft: scale(30), // Ajustado con escala proporcional
+        marginTop: scale(4), // Ajustado con escala proporcional
     },
 
     IconButtonTextStyle: {
-        width: scaleImage(10),
-        height: scaleImage(10),
-        marginRight: scaleImage(5),
+        width: scale(10), // Ajustado con escala proporcional
+        height: scale(10), // Ajustado con escala proporcional
+        marginRight: scale(5), // Ajustado con escala proporcional
     },
-
 });

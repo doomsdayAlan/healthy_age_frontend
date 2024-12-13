@@ -10,8 +10,6 @@ import PressableItem from './PressableItem';
 type ItemTreatmentListItemProps = {
     containerStyle?: StyleProp<ViewStyle>;
     treatmentName: string;
-    totalMeds: number;
-    totalTakes: number;
     topTextSyle?: StyleProp<TextStyle>;
     bottomTextSyle?: StyleProp<TextStyle>;
     onPress?: (event: GestureResponderEvent) => void;
@@ -19,8 +17,6 @@ type ItemTreatmentListItemProps = {
 
 const ItemTreatmentList: React.FC<ItemTreatmentListItemProps> = ({
     containerStyle,
-    totalMeds,
-    totalTakes,
     treatmentName,
     topTextSyle,
     bottomTextSyle,
@@ -32,9 +28,6 @@ const ItemTreatmentList: React.FC<ItemTreatmentListItemProps> = ({
             <Container style = {ContainerStyle.ContainerTextContainerTreatemntListItem}>
                 <GenericText style = {topTextSyle}>
                     {treatmentName}
-                </GenericText>
-                <GenericText style = {bottomTextSyle}>
-                    {totalMeds} medicamentos, {totalTakes} tomas pendientes.   
                 </GenericText>
             </Container>
             <PressableItem onPress={onPress}>

@@ -66,12 +66,12 @@ const WelcomeScreenLayout: React.FC<WelcomeScreenLayoutProps> = ({ AccountConnec
                         textStyle={TextStyles.WelcomeScreenButtonText}
                     />
 
-                    <GenericText style={TextStyles.WelcomeScreenText_2} numberOfLines={2}>
+                    <GenericText style={TextStyles.WelcomeScreenText_2} numberOfLines={1}>
                         ¿Ya tienes una cuenta?
                     </GenericText>
 
                     <PressableItem onPress={handleNavigateToLogin}>
-                        <GenericText style={TextStyles.WelcomeScreenText_3} numberOfLines={2}>
+                        <GenericText style={TextStyles.WelcomeScreenText_3} numberOfLines={1}>
                             Iniciar sesión
                         </GenericText>
                     </PressableItem>

@@ -1,12 +1,17 @@
-import { StyleSheet, Dimensions, PixelRatio } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
-const { height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
-const scaleSize = (size: number) => size * PixelRatio.get();
+const guidelineBaseWidth = 375; // Base del diseño (ancho)
+const guidelineBaseHeight = 812; // Base del diseño (alto)
+
+const scaleWidth = (size: number) => (width / guidelineBaseWidth) * size;
+const scaleHeight = (size: number) => (height / guidelineBaseHeight) * size;
+const scale = (size: number) => Math.min(scaleWidth(size), scaleHeight(size));
+
 export const MainPageScreenStyles = StyleSheet.create({
-
     text: {
-        fontSize: scaleSize(30),
+        fontSize: scale(30), // Ajustado con escala proporcional
         color: 'black',
     },
 

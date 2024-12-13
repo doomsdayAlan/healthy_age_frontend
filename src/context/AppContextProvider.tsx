@@ -3,6 +3,7 @@ import { DBConnectionProvider } from './DBConnectionContext';
 import { AccountConnectionProvider } from './AccountConnectionContext';
 import { NavigationProvider } from './NavigationContext';
 import { UserProvider } from './UserContext';
+import ApiServices from './apiServicesContext';
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -14,7 +15,9 @@ const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
       <AccountConnectionProvider>
         <NavigationProvider>
           <UserProvider>
-            {children}
+            <ApiServices>
+              {children}
+            </ApiServices>
           </UserProvider>
         </NavigationProvider>
       </AccountConnectionProvider>

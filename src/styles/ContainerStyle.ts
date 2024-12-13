@@ -1,8 +1,14 @@
-import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-const scaleSize = (size: number) => size * PixelRatio.get();
+// Escalado adaptado al tamaño de pantalla
+const guidelineBaseWidth = 375; // Base del diseño (ancho)
+const guidelineBaseHeight = 812; // Base del diseño (alto)
+
+const scaleWidth = (size: number) => (width / guidelineBaseWidth) * size;
+const scaleHeight = (size: number) => (height / guidelineBaseHeight) * size;
+const scale = (size: number) => Math.min(scaleWidth(size), scaleHeight(size));
 
 export const ContainerStyle = StyleSheet.create({
 
@@ -70,20 +76,21 @@ export const ContainerStyle = StyleSheet.create({
         height: '100%',
         backgroundColor:'#F5F6FA',
         flexDirection: 'column',
+        justifyContent: 'flex-start'
     },
 
     MailConfirmationInputContainerStyle: {
-        marginTop: scaleSize(30),
+        marginTop: scale(30),
     },
 
     NewAccountArrowContainer: {
         flexDirection: 'row',
-        marginTop: scaleSize(10),
+        marginTop: scale(10),
     },
 
     MailConfirmationArrowContainer: {
         flexDirection: 'row',
-        marginTop: scaleSize(8),
+        marginTop: scale(8),
     },
 
     NewAccountFormContainer: {
@@ -92,7 +99,7 @@ export const ContainerStyle = StyleSheet.create({
     },
 
     NewAccountFormItemContainerStyle:{
-        marginBottom: scaleSize(10),
+        marginBottom: scale(10),
 
     },
 
@@ -109,7 +116,7 @@ export const ContainerStyle = StyleSheet.create({
     NewAccountToUPP: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: scaleSize(5),
+        marginBottom: scale(5),
     },
 
     NewAccountButtonTextContainerStyle: {
@@ -134,21 +141,21 @@ export const ContainerStyle = StyleSheet.create({
     NewAccountIconsContainerStyle: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: scaleSize(5),
+        marginTop: scale(5),
     },
 
     LoginIconsContainerStyle: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: scaleSize(5),
+        marginTop: scale(5),
     },
 
     LoginInputContainerStyle: {
-        marginTop: scaleSize(30),
+        marginTop: scale(30),
     },
 
     ProfileInputContainerStyle: {
-        marginTop: scaleSize(3),
+        marginTop: scale(3),
     },
     
     MainPageMainContainer:{
@@ -173,7 +180,7 @@ export const ContainerStyle = StyleSheet.create({
         width: '100%',
         height: '10%',
         flexDirection: 'row',
-        marginTop: scaleSize(8),
+        marginTop: scale(8),
         alignItems:'center',
         alignContent: 'center',
         justifyContent: 'center',
@@ -183,7 +190,7 @@ export const ContainerStyle = StyleSheet.create({
     MainPageSaluteContainer:{
         width: '56%',
         flexDirection: 'column',
-        marginRight: scaleSize(5),
+        marginRight: scale(5),
     },
 
     MainPageNotificationSettingsContainer:{
@@ -194,25 +201,31 @@ export const ContainerStyle = StyleSheet.create({
     MainPageIconsContainerStyle:{
         backgroundColor: '#e0e0e0',
         borderRadius: 50,
-        margin: scaleSize(1),
+        margin: scale(1),
     },
 
     MainTabMenuContainer: {
         backgroundColor: '#029CA7',
-        borderRadius: scaleSize(25),
-        height: scaleSize(25),
+        borderRadius: 50,
+        height: '10%',
         width: '90%',
         position: 'absolute',
-        bottom: scaleSize(10),
+        bottom: scale(10),  
         justifyContent: 'center',
         alignItems: 'center',
+        alignContent: 'center',
         flexDirection: 'row',
-        paddingHorizontal: scaleSize(10),
         alignSelf: 'center',
     },
 
     TabMenuIconsContainer: {
         flexDirection: 'row',
+        
+    },
+
+    TabMenuIconsElement: {
+        width: '25%',
+        height: '45%',
     },
 
     OrangeSeparator: {
@@ -231,15 +244,15 @@ export const ContainerStyle = StyleSheet.create({
         width: '100%',
         height: 2,
         backgroundColor: '#DCDCDC',
-        marginTop: scaleSize(3),
-        marginBottom: scaleSize(3),
+        marginTop: scale(3),
+        marginBottom: scale(3),
     },
 
     CalendarStyle: {
         width: '85%',
         height: '70%',
         justifyContent: 'space-between',
-        marginTop: scaleSize(5),
+        marginTop: scale(5),
         flexDirection: 'row',
     },
 
@@ -256,7 +269,7 @@ export const ContainerStyle = StyleSheet.create({
         flexDirection: 'row',
         borderWidth: 2,
         borderColor: '#FF7F50',
-        borderRadius: scaleSize(8),
+        borderRadius: scale(8),
         justifyContent: 'center',
         backgroundColor: 'white',
     },
@@ -267,7 +280,7 @@ export const ContainerStyle = StyleSheet.create({
         flexDirection: 'row',
         borderWidth: 2,
         borderColor: '#029CA7',
-        borderRadius: scaleSize(8),
+        borderRadius: scale(8),
         justifyContent: 'center',
         backgroundColor: '#029CA7',
     },
@@ -279,26 +292,26 @@ export const ContainerStyle = StyleSheet.create({
     },
 
     RightArrowPatientList: {
-        width: scaleSize(10),
-        height: scaleSize(10),
-        marginLeft: scaleSize(40),
+        width: scale(10),
+        height: scale(10),
+        marginLeft: scale(40),
     },
 
     RightArrowTreatmentList: {
-        width: scaleSize(10),
-        height: scaleSize(10),
+        width: scale(10),
+        height: scale(10),
     },
 
     EditStyle: {
-        width: scaleSize(12),
-        height: scaleSize(12),
-        marginHorizontal: scaleSize(2),
+        width: scale(30),
+        height: scale(30),
+        marginHorizontal: scale(2),
     },
 
     DeleteStyle: {
-        width: scaleSize(8),
-        height: scaleSize(8),
-        marginHorizontal: scaleSize(2),
+        width: scale(20),
+        height: scale(20),
+        marginHorizontal: scale(2),
     },
 
     ConatinerPatientListMainMenu: {
@@ -306,7 +319,7 @@ export const ContainerStyle = StyleSheet.create({
         width: '90%',
         height: '30%',
         alignSelf: 'center',
-        marginTop: scaleSize(5),
+        marginTop: scale(5),
     },
 
     ConatinerTreatmentListMainMenu: {
@@ -314,7 +327,7 @@ export const ContainerStyle = StyleSheet.create({
         width: '90%',
         height: '30%',
         alignSelf: 'center',
-        marginTop: scaleSize(4),
+        marginTop: scale(4),
     },
 
     ContentContainerScrolleableView: {
@@ -328,7 +341,7 @@ export const ContainerStyle = StyleSheet.create({
         height: '30%',
         borderRadius: 20,
         backgroundColor: '#E6E6E4',
-        marginBottom: scaleSize(5),
+        marginBottom: scale(5),
         alignItems: 'center',
         flex: 1,
     },
@@ -339,7 +352,7 @@ export const ContainerStyle = StyleSheet.create({
         height: '40%',
         borderRadius: 20,
         backgroundColor: '#E6E6E4',
-        marginBottom: scaleSize(5),
+        marginBottom: scale(5),
         alignItems: 'center',
         flex: 1,
     },
@@ -347,10 +360,10 @@ export const ContainerStyle = StyleSheet.create({
     ConatinerTreatmentListItemScreen: {
         flexDirection: 'row',
         width: '100%',
-        height: scaleSize(65),
+        height: scale(150),
         borderRadius: 20,
         backgroundColor: '#E6E6E4',
-        marginBottom: scaleSize(5),
+        marginBottom: scale(5),
         alignItems: 'center',
     },
 
@@ -395,12 +408,29 @@ export const ContainerStyle = StyleSheet.create({
         justifyContent: 'center',
     },
 
+    ScreenDetailsTreatmentTitleContainer: {
+        flexDirection: 'row',
+        height: '100%',
+        width: '80%',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
+
     DatesTreatmentScreenContainerStyle: {
         flexDirection: 'row',
         height: '15%',
         width: '100%',
         justifyContent: 'space-between',
-        marginLeft: scaleSize(10),
+        marginLeft: scale(10),
+    },
+
+    DatesTreatmentDetailsScreenContainerStyle: {
+        flexDirection: 'row',
+        height: '40%',
+        width: '100%',
+        justifyContent: 'space-between',
+        marginTop: scale(10),
     },
 
     TreatmentButtonStyle: {
@@ -412,7 +442,26 @@ export const ContainerStyle = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#029CA7',
         borderRadius: 20,
+        alignSelf: 'flex-start',
+    },
+
+    TreatmentFormButtonStyle: {
+        flexDirection: 'row',
+        height: '100%',
+        width: '30%',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#029CA7',
+        borderRadius: 20,
         alignSelf: 'center',
+        marginHorizontal: scale(15),
+    },
+
+    TreatmentFormContainerStyle: {
+        flexDirection: 'column',
+        marginBottom: scale(20),
+        width: '90%', 
     },
 
     BottomContainerTreatmentScreenItem: {
@@ -422,8 +471,8 @@ export const ContainerStyle = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: scaleSize(8),
-        marginLeft: scaleSize(18),
+        marginTop: scale(8),
+        marginLeft: scale(18),
     },
 
     PatientListItemContainer: {
@@ -431,7 +480,7 @@ export const ContainerStyle = StyleSheet.create({
         width: '100%',
         borderRadius: 20,
         backgroundColor: '#E6E6E4',
-        marginBottom: scaleSize(10),
+        marginBottom: scale(10),
         alignItems: 'center',
         
     },
@@ -447,8 +496,8 @@ export const ContainerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '80%',
-        marginTop: scaleSize(5),
-        marginLeft: scaleSize(5),
+        marginTop: scale(5),
+        marginLeft: scale(5),
     },
 
     ProfileScreenMainContainerStyle: {
@@ -467,5 +516,44 @@ export const ContainerStyle = StyleSheet.create({
         height: '10%',
         flexWrap: 'wrap',
         justifyContent: 'center',
-    }, 
+    },
+
+    ContainerTreatmentFormButtons: {
+        flexDirection: 'row',
+        width: '100%',
+        marginTop: scale(10),
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    MainContainerStyleTreatmentDetailsScreen: {
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%'
+    },
+
+    TitleTreatmentDetailsScreen: {
+        flexDirection: 'row',
+        width: '100%',
+        height: '8%',
+        marginTop: scale(20),
+    },
+
+    FormTreatmentDetailScreen: {
+        flexDirection: 'column',
+        width: '90%',
+        height: '15%',
+        marginTop: scale(20),
+        alignContent: 'center',
+        alignSelf: 'center',
+    },
+
+    FormMedicineDetailScreen: {
+        flexDirection: 'column',
+        width: '90%',
+        height: '100%',
+        alignContent: 'center',
+        alignSelf: 'center',
+    },
 });

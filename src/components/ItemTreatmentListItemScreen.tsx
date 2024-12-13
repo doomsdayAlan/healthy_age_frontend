@@ -12,14 +12,13 @@ type ItemTreatmentListItemProps = {
     containerStyle?: StyleProp<ViewStyle>;
     treatmentName: string;
     name: string;
-    dateStart: Date;
-    dateEnd: Date;
-    totalMeds: number;
-    totalTakes: number;
+    dateStart: string;
+    dateEnd: string;
     topTextStyle?: StyleProp<TextStyle>;
     bottomTextStyle?: StyleProp<TextStyle>;
     onPressEdit?: (event: GestureResponderEvent) => void;
     onPressDelete?: (event: GestureResponderEvent) => void;
+    onPressDetails?: (event: GestureResponderEvent) => void;
 };
 
 const ItemTreatmentListScreen: React.FC<ItemTreatmentListItemProps> = ({
@@ -32,23 +31,8 @@ const ItemTreatmentListScreen: React.FC<ItemTreatmentListItemProps> = ({
     bottomTextStyle,
     onPressEdit,
     onPressDelete,
+    onPressDetails,
 }) => {
-
-    const formattedDateStart = dateStart.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
-
-    const formattedDateEnd = dateEnd.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
-
-    const handleDetails = () => {
-
-    };
 
     return(
         <Container style = {containerStyle}>
@@ -68,7 +52,7 @@ const ItemTreatmentListScreen: React.FC<ItemTreatmentListItemProps> = ({
                         <GenericText
                             style = {TextStyles.DateTextStyleTreatmentScreen}
                         >
-                            {formattedDateStart}
+                            {dateStart}
                         </GenericText>
                     </Container>
 
@@ -84,7 +68,7 @@ const ItemTreatmentListScreen: React.FC<ItemTreatmentListItemProps> = ({
                         <GenericText
                             style = {TextStyles.DateTextStyleTreatmentScreen}
                         >
-                            {formattedDateStart}
+                            {dateEnd}
                         </GenericText>
                     </Container>
 
@@ -95,7 +79,7 @@ const ItemTreatmentListScreen: React.FC<ItemTreatmentListItemProps> = ({
                 >
 
                 <PressableItem
-                    onPress = {handleDetails}
+                    onPress = {onPressDetails}
                     style = {ContainerStyle.TreatmentButtonStyle}
                 >
                     <GenericText style = {TextStyles.TreatmentListItemTextStyleBottomButton}>

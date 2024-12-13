@@ -30,9 +30,9 @@ export default function PatientsScreenLayout(){
             >
 
                 <ItemPatientListScreen
-                    name = {'AAAAA YA ME CANSE'}
+                    name = {'Carlos Trejo'}
                     phone = {'5566778855'}
-                    age = {'9'} 
+                    age = {'79'} 
                     source = {IMAGES.VIEJITA}
                     imageStyle = {ImageStyles.IconPatientListScreen}
                 />

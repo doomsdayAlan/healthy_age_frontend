@@ -80,7 +80,7 @@ android {
 
     namespace "com.app_android_awelos"
     defaultConfig {
-        applicationId "com.app_android_awelos"
+        applicationId "com.healty.age"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

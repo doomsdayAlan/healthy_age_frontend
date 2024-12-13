@@ -16,6 +16,10 @@ const TabMenu = () => {
     const navigation = useNavigation<TabMenuNavigationProp>();
 
     const handleNavigate = (route: keyof AppStackParamList) => {
+        if (route === "TreatmentDetailsScreen") {
+            console.error("No se puede navegar a TreatmentDetailsScreen sin parámetros.");
+            return;
+        }
         navigation.navigate(route);
     };
 
@@ -24,16 +28,16 @@ const TabMenu = () => {
     return (
         <Container style={ContainerStyle.MainTabMenuContainer}>
             <Container style={ContainerStyle.TabMenuIconsContainer}>
-                <PressableItem onPress={() => handleNavigate("MainPageScreen")}>
+                <PressableItem onPress={() => handleNavigate("MainPageScreen")} style={ContainerStyle.TabMenuIconsElement}>
                     <ImageContainer source={IMAGES.HOME_ICON} style={ImageStyles.TabMenuIconStyle} />
                 </PressableItem>
-                <PressableItem onPress={() => handleNavigate("TreatmentListScreen")}>
+                <PressableItem onPress={() => handleNavigate("TreatmentListScreen")} style={ContainerStyle.TabMenuIconsElement}>
                     <ImageContainer source={IMAGES.DRUGS_ICON} style={ImageStyles.TabMenuIconStyle} />
                 </PressableItem>
-                <PressableItem onPress={() => handleNavigate("PatientsScreen")}>
+                <PressableItem onPress={() => handleNavigate("PatientsScreen")} style={ContainerStyle.TabMenuIconsElement}>
                     <ImageContainer source={IMAGES.PATIENTS_ICON} style={ImageStyles.TabMenuIconStyle} />
                 </PressableItem>
-                <PressableItem onPress={() => handleNavigate("CalendarScreen")}>
+                <PressableItem onPress={() => handleNavigate("CalendarScreen")} style={ContainerStyle.TabMenuIconsElement}>
                     <ImageContainer source={IMAGES.CALENDAR_ICON} style={ImageStyles.TabMenuIconStyle} />
                 </PressableItem>
             </Container>

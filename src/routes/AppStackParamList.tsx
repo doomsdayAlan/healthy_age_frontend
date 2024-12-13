@@ -7,6 +7,7 @@ export type AppStackParamList = {
     PatientsScreen: undefined;
     CalendarScreen: undefined;
     TreatmentListScreen: undefined;
+    TreatmentDetailsScreen: { treatment: { id_tratamiento: string, nombre_tratamiento: string; medico: string; fecha_inicio: string; fecha_fin: string } };
     TabMenu: undefined;
   };
   

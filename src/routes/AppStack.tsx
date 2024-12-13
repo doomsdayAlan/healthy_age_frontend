@@ -8,6 +8,7 @@ import { AppStackParamList } from './AppStackParamList';
 import CalendarScreen from '../screens/CalendarScreen';
 import PatientsScreen from '../screens/PatientsScreen';
 import TreatmentListScreen from '../screens/TreatmentListScreen';
+import TreatmentListDetails from '../screens/TreatmentDetailsScreen';
 
 const AppStack = createStackNavigator<AppStackParamList>();
 
@@ -21,6 +22,7 @@ export function AppStackRoutes(){
             <AppStack.Screen name="TreatmentListScreen" component={TreatmentListScreen} options={{ headerShown: false }} />
             <AppStack.Screen name="PatientsScreen" component={PatientsScreen} options={{ headerShown: false }} />
             <AppStack.Screen name="CalendarScreen" component={CalendarScreen} options={{ headerShown: false }} />
+            <AppStack.Screen name="TreatmentDetailsScreen" component={TreatmentListDetails} options={{ headerShown: false }} />
         </AppStack.Navigator>
     );
 }

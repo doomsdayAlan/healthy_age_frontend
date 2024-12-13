@@ -17,23 +17,28 @@ import { useUser } from '../context/UserContext';
 import ImageContainer from '../components/ImageContainer';
 import { IMAGES } from '../constants/constants';
 import { ImageStyles } from '../styles/ImageContainerStyle';
+import { Alert } from 'react-native';
 
 type LoginNavigationProp = StackNavigationProp<AppStackParamList>;
 
 export default function LoginScreenLayout() {
     const navigation = useNavigation<LoginNavigationProp>();
     const { setConnection } = useContext(AccountConnectionContext);
-    const { validateUser } = useUser();
+    const { loginUser, user, setUser } = useUser();
     const [email, setEmail] = useState('');
     const [pin, setPin] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleLogin = () => {
-        if (validateUser(email, pin)) {
-            setConnection(true);
-            navigation.navigate('MainPageScreen');
-        } else {
-            setErrorMessage('Correo o PIN incorrecto.');
+    const handleLogin = async () => {
+        try{
+            const response = await loginUser(email, pin);
+            console.log("RESPUESTA LOGIN");
+            console.log(response);
+            setUser(response);
+            navigation.navigate("MainPageScreen");
+
+        }catch(error){
+            Alert.alert('Credenciales no validas o error al iniciar sesion');
         }
     };
 
@@ -66,12 +71,12 @@ export default function LoginScreenLayout() {
 
             <GenericInput
                 headerText='PIN de seguridad'
-                placeholder='****'
+                placeholder='*****'
                 containerStyle={ContainerStyle.LoginInputContainerStyle}
                 value={pin}
                 onChangeText={setPin}
                 secureTextEntry
-                maxLength={4}
+                maxLength={5}
                 keyboardType="numeric"
             />
 

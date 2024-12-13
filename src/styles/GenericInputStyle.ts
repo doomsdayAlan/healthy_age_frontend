@@ -1,30 +1,37 @@
-import { StyleSheet, Dimensions, PixelRatio } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
 
-const { height, width } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
-const scaleSize = (size: number) => size * PixelRatio.get();
+// Escalado adaptado al tamaño de pantalla
+const guidelineBaseWidth = 375; // Base del diseño (ancho)
+const guidelineBaseHeight = 812; // Base del diseño (alto)
+
+const scaleWidth = (size: number) => (width / guidelineBaseWidth) * size;
+const scaleHeight = (size: number) => (height / guidelineBaseHeight) * size;
+const scale = (size: number) => Math.min(scaleWidth(size), scaleHeight(size));
 
 export const GenericInputStyles = StyleSheet.create({
     container: {
         alignItems: 'flex-start',
-        marginBottom: scaleSize(8),
+        marginBottom: scale(8),
     },
     headerText: {
         fontFamily: 'LeagueSpartan-Bold',
-        marginBottom: scaleSize(2),
-        fontSize: scaleSize(8),
+        marginBottom: scale(2),
+        fontSize: scale(22),
         color: '#000',
     },
     inputContainer: {
         alignItems: 'flex-start',
         backgroundColor: '#e0e0e0',
-        borderRadius: scaleSize(5),
+        borderRadius: scale(5),
         width: '100%',
     },
     inputText: {
         fontFamily: 'LeagueSpartan-Regular',
-        marginLeft: scaleSize(5),
-        fontSize: scaleSize(8),
+        marginLeft: scale(5),
+        fontSize: scale(20),
+        width: '100%',
         color: '#000',
     },
 });

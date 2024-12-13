@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Container from '../components/Container';
 import GenericText from '../components/Text';
 import { ContainerStyle } from '../styles/ContainerStyle';
@@ -16,165 +17,162 @@ import Separator from '../components/Separator';
 import CalendarItem from '../components/CalendarItem';
 import UserPatientListItem from '../components/user_patient_list_item';
 import ItemTreatmentList from '../components/ItemTreatmentListItem';
+import { useApi } from '../context/apiServicesContext';
 
 type MainPageNavigationProp = StackNavigationProp<AppStackParamList>;
 
-export default function MainPageScreenLayout(){
-
-    const {user} = useUser();
+export default function MainPageScreenLayout() {
+    const { user } = useUser();
+    const { obtainTreatmentById } = useApi();
     const navigation = useNavigation<MainPageNavigationProp>();
-    
+
+    const [treatmentList, setTreatmentList] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
     const formatDate = (date: Date) => {
         const days = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
         const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-      
+
         const dayName = days[date.getDay()];
         const day = date.getDate();
         const monthName = months[date.getMonth()];
         const year = date.getFullYear();
-      
+
         return `${dayName} ${day} de ${monthName} de ${year}`;
-      };
+    };
 
     const today = new Date();
     const formattedDate = formatDate(today);
-    const Dates = [];
-    for (let i = 0; i <= 5; i++) {
+    const Dates = Array.from({ length: 6 }, (_, i) => {
         const nextDate = new Date(today);
         nextDate.setDate(today.getDate() + i);
-        Dates.push(nextDate);
-      };
+        return nextDate;
+    });
+
+    // Función para obtener la lista de tratamientos
+    const fetchTreatments = useCallback(async () => {
+        if (user?.id_usuario) {
+            try {
+                setIsLoading(true);
+                const response = await obtainTreatmentById(user.id_usuario);
+                setTreatmentList(response || []); // Manejar lista vacía
+            } catch (error) {
+                console.error("Error al obtener lista de tratamientos:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    }, [obtainTreatmentById, user?.id_usuario]);
+
+    // Llamar a fetchTreatments al montar el componente
+    useEffect(() => {
+        fetchTreatments();
+    }, [fetchTreatments]);
 
     const handleProfileNavigation = () => {
         navigation.navigate('ProfileScreen');
     };
 
-    const handleNotificationsScreenNavigation = () => {
-        navigation.navigate('NotificationsScreen');
-    };
-
-    const handleSettingsScreennNavigation = () => {
-        navigation.navigate('SettingsScreen');
-    };
-
     return (
-        <Container
-            style={ContainerStyle.MainPageMainContainer}
-        >
-
+        <Container style={ContainerStyle.MainPageMainContainer}>
             {user ? (
-                <Container
-                    style={ContainerStyle.MainPageMainContainer}
-                >
-                    <Container
-                        style={ContainerStyle.MainPageUserContainer}
-                    >
-                        <PressableItem
-                            onPress={handleProfileNavigation}
-                        >
-                            <ImageContainer 
-                                source={user.profileImage ? user.profileImage : IMAGES.DEFAULT_USER_ICON}
+                <Container style={ContainerStyle.MainPageMainContainer}>
+                    <Container style={ContainerStyle.MainPageUserContainer}>
+                        <PressableItem onPress={handleProfileNavigation}>
+                            <ImageContainer
+                                source={IMAGES.DEFAULT_USER_ICON}
                                 style={ImageStyles.MainPageUserIconStyle}
                             />
                         </PressableItem>
 
-                        <Container
-                            style={ContainerStyle.MainPageSaluteContainer}
-                        >
-                            <GenericText
-                                style={TextStyles.MainUserSaluteText}
-                            >
-                                ¡Hola, {user.firstName}!
+                        <Container style={ContainerStyle.MainPageSaluteContainer}>
+                            <GenericText style={TextStyles.MainUserSaluteText}>
+                                ¡Hola, {user.nombre}!
                             </GenericText>
 
-                            <GenericText
-                                style={TextStyles.MainUserDateText}
-                            >
+                            <GenericText style={TextStyles.MainUserDateText}>
                                 {formattedDate}
                             </GenericText>
                         </Container>
                     </Container>
 
-                    <Container 
-                        style = {ContainerStyle.CalendarContainerStyle}
-                    >
-                        <Container
-                            style = {ContainerStyle.CalendarStyle}
-                        >
-                            <CalendarItem 
-                                date={Dates[0]} 
-                                containerStyle = {ContainerStyle.CalendarTodayItemStyle} 
-                                topTextStyle = {TextStyles.CalendarSelectedItemTextStyleTop}
-                                bottomTextStyle = {TextStyles.CalendarSelectedItemTextStyleBottom}
-                            />
-                            <CalendarItem date={Dates[1]}/>
-                            <CalendarItem date={Dates[2]}/>
-                            <CalendarItem date={Dates[3]}/>
-                            <CalendarItem date={Dates[4]}/>
-                            <CalendarItem date={Dates[5]}/>
-
+                    <Container style={ContainerStyle.CalendarContainerStyle}>
+                        <Container style={ContainerStyle.CalendarStyle}>
+                            {Dates.map((date, index) => (
+                                <CalendarItem
+                                    key={index}
+                                    date={date}
+                                    containerStyle={index === 0 ? ContainerStyle.CalendarTodayItemStyle : undefined}
+                                    topTextStyle={index === 0 ? TextStyles.CalendarSelectedItemTextStyleTop : undefined}
+                                    bottomTextStyle={index === 0 ? TextStyles.CalendarSelectedItemTextStyleBottom : undefined}
+                                />
+                            ))}
                         </Container>
                     </Container>
 
-                    <Separator text='Tratamientos activos' containerStyle={ContainerStyle.OrangeSeparator} textStyle={TextStyles.OrangeSeparatorText}/>
-                    
-                    <Container
-                        style = {ContainerStyle.ConatinerTreatmentListMainMenu}
-                        contentContainerStyle = {ContainerStyle.ContentContainerScrolleableView}
-                        showsVerticalScrollIndicator = {false}
-                        scrollEnabled = {true}
-                    >
-
-                       <ItemTreatmentList
-                            treatmentName={'Peste negra'}
-                            totalMeds={3}
-                            totalTakes={2}
-                            containerStyle = {ContainerStyle.ConatinerTreatmentListItemMainMenu}
-                            topTextSyle = {TextStyles.TreatmentListItemTextStyleTop}
-                            bottomTextSyle = {TextStyles.TreatmentListItemTextStyleBottom}
-                        />
-                        
-                    </Container>
-
-                    <Separator text='Mis adultos mayores' containerStyle={ContainerStyle.OrangeSeparator} textStyle={TextStyles.OrangeSeparatorText}/>
+                    <Separator
+                        text="Tratamientos activos"
+                        containerStyle={ContainerStyle.OrangeSeparator}
+                        textStyle={TextStyles.OrangeSeparatorText}
+                    />
 
                     <Container
-                        style = {ContainerStyle.ConatinerPatientListMainMenu}
-                        contentContainerStyle = {ContainerStyle.ContentContainerScrolleableView}
-                        showsVerticalScrollIndicator = {false}
-                        scrollEnabled = {true}
+                        style={ContainerStyle.ConatinerTreatmentListMainMenu}
+                        contentContainerStyle={ContainerStyle.ContentContainerScrolleableView}
+                        showsVerticalScrollIndicator={false}
+                        scrollEnabled={true}
                     >
-                        <UserPatientListItem 
-                            source = {IMAGES.VIEJITA} 
-                            text = 'Doña Mary' 
-                            containerStyle = {ContainerStyle.ConatinerPatientListItemMainMenu}
-                            iconImageStyle = {ImageStyles.IconPatientListMainMenu}
-                            textStyle = {TextStyles.PatientListItemTextStyle}
-                        />
-
+                        {isLoading ? (
+                            <GenericText>Cargando tratamientos...</GenericText>
+                        ) : treatmentList.length > 0 ? (
+                            treatmentList.map((treatment, index) => (
+                                <ItemTreatmentList
+                                    key={index}
+                                    treatmentName={treatment.nombre_tratamiento}
+                                    containerStyle={ContainerStyle.ConatinerTreatmentListItemMainMenu}
+                                    topTextSyle={TextStyles.TreatmentListItemTextStyleTop}
+                                    bottomTextSyle={TextStyles.TreatmentListItemTextStyleBottom}
+                                />
+                            ))
+                        ) : (
+                            <GenericText>No hay tratamientos activos.</GenericText>
+                        )}
                     </Container>
 
-                    <Separator containerStyle={ContainerStyle.TransparentSeparator}/>
+                    <Separator
+                        text="Mis adultos mayores"
+                        containerStyle={ContainerStyle.OrangeSeparator}
+                        textStyle={TextStyles.OrangeSeparatorText}
+                    />
 
-                    <TabMenu/>
+                    <Container
+                        style={ContainerStyle.ConatinerPatientListMainMenu}
+                        contentContainerStyle={ContainerStyle.ContentContainerScrolleableView}
+                        showsVerticalScrollIndicator={false}
+                        scrollEnabled={true}
+                    >
+                        <UserPatientListItem
+                            source={IMAGES.VIEJITA}
+                            text="Doña Mary"
+                            containerStyle={ContainerStyle.ConatinerPatientListItemMainMenu}
+                            iconImageStyle={ImageStyles.IconPatientListMainMenu}
+                            textStyle={TextStyles.PatientListItemTextStyle}
+                        />
+                    </Container>
 
+                    <Separator containerStyle={ContainerStyle.TransparentSeparator} />
+
+                    <TabMenu />
                 </Container>
-                ) : (
-                    <Container
-                        style={ContainerStyle.MainPageErrorMainContainer}
-                    >
+            ) : (
+                <Container style={ContainerStyle.MainPageErrorMainContainer}>
+                    <GenericText style={TextStyles.MainErrorText}>
+                        ¡Uy no deberías estar aquí!
+                    </GenericText>
 
-                        <GenericText
-                            style={TextStyles.MainErrorText}
-                        >
-                            ¡Uy no deberias estar aqui!
-                        </GenericText>
-
-                        <ImageContainer
-                            source={IMAGES.ERROR_IMAGE}
-                        />
-                    </Container>
-                )}
+                    <ImageContainer source={IMAGES.ERROR_IMAGE} />
+                </Container>
+            )}
         </Container>
     );
 }

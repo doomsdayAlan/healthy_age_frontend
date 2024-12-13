@@ -18,48 +18,61 @@ import ImageContainer from '../components/ImageContainer';
 import PressableItem from '../components/PressableItem';
 import { ImageStyles } from '../styles/ImageContainerStyle';
 
-type NewAccountNavigationProp = StackNavigationProp<AuthStackParamList, 'NewAccountScreen'>;
+type NewAccountNavigationProp = StackNavigationProp<AuthStackParamList>;
 
 export default function NewAccountScreenLayout() {
     const navigation = useNavigation<NewAccountNavigationProp>();
-    const { registerUser } = useUser();
+    const { registerUser, validateUser, user } = useUser();
 
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [email, setEmail] = useState('');
-    const [pin, setPin] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [correo, setCorreo] = useState('');
+    const [pin_seguridad, setPinSeguridad] = useState('');
+    const [fecha_nacimiento, setFechaNacimiento] = useState('');
+    const [telefono, setTelefono] = useState('');
 
     const isValidForm = () => {
         const emailRegex = /\S+@\S+\.\S+/;
-        if (!name || !surname || !emailRegex.test(email) || pin.length !== 4 || !phoneNumber) {
-            Alert.alert("Por favor, completa todos los campos correctamente.");
+        if (!firstName || !lastName || !emailRegex.test(correo) || pin_seguridad.length !== 5 || !telefono || !fecha_nacimiento) {
+            Alert.alert('Por favor, completa todos los campos correctamente.');
             return false;
         }
         return true;
     };
 
-    const handleNavigateToMailConfirmation = () => {
+    const handleNavigateToMailConfirmation = async () => {
         if (isValidForm()) {
             const userData = {
-                firstName: name,
-                lastName: surname,
-                email: email,
-                pin: pin,
-                birthDate: dateOfBirth,
-                phoneNumber: phoneNumber,
-                profileImage: IMAGES.DEFAULT_USER_ICON,
+                nombre: `${firstName} ${lastName}`,
+                correo,
+                id_usuario: '',
+                telefono,
+                pin_seguridad,
+                fecha_nacimiento,
+                clave_api: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+                rol: 1,
+                token_usuario: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjM2ZDg1YTgxY2Q4NGE4N2Y5ODczOTY4ZGFmYjQ4YzU4NDNkYTliNzEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzL',
+                id_cuidador: 'K1r2bz38FEgRTudHUMHx',
             };
 
-            registerUser(userData);
-            navigation.navigate('MailConfirmationScreen');
+            try{
+                const response = await registerUser(userData);
+                console.log(response);
+                navigation.navigate('LoginScreen');
+            }catch(error){
+                Alert.alert('Error en la creacion de cuenta');
+            }
+
         }
     };
 
-    const handleRegistrationWithGoogle = () => {}
+    const handleRegistrationWithGoogle = () => {
+        Alert.alert('Google Login', 'Funcionalidad aún no implementada.');
+    };
 
-    const handleRegistrationWithFacebook = () => {}
+    const handleRegistrationWithFacebook = () => {
+        Alert.alert('Facebook Login', 'Funcionalidad aún no implementada.');
+    };
 
     return (
         <Container style={ContainerStyle.NewAccountMainContainer}>
@@ -71,50 +84,50 @@ export default function NewAccountScreenLayout() {
             <Container style={ContainerStyle.NewAccountFormContainer}>
                 <Container style={ContainerStyle.NewAccountNamesContainer}>
                     <GenericInput
-                        headerText='Nombre'
-                        placeholder='Nombre'
+                        headerText="Nombre"
+                        placeholder="Nombre"
                         containerStyle={{ width: '48%' }}
-                        value={name}
-                        onChangeText={setName}
+                        value={firstName}
+                        onChangeText={setFirstName}
                     />
                     <GenericInput
-                        headerText='Apellido'
-                        placeholder='Apellido'
+                        headerText="Apellido"
+                        placeholder="Apellido"
                         containerStyle={{ width: '48%' }}
-                        value={surname}
-                        onChangeText={setSurname}
+                        value={lastName}
+                        onChangeText={setLastName}
                     />
                 </Container>
 
                 <GenericInput
-                    headerText='Correo electrónico'
-                    placeholder='example@example.com'
+                    headerText="Correo electrónico"
+                    placeholder="example@example.com"
                     containerStyle={ContainerStyle.NewAccountFormItemContainerStyle}
-                    value={email}
-                    onChangeText={setEmail}
+                    value={correo}
+                    onChangeText={setCorreo}
                 />
                 <GenericInput
-                    headerText='PIN de seguridad'
-                    placeholder='****'
+                    headerText="PIN de seguridad"
+                    placeholder="*****"
                     containerStyle={ContainerStyle.NewAccountFormItemContainerStyle}
-                    value={pin}
-                    onChangeText={setPin}
+                    value={pin_seguridad}
+                    onChangeText={setPinSeguridad}
                     secureTextEntry
-                    maxLength={4}
+                    maxLength={5}
                 />
                 <GenericInput
-                    headerText='Fecha de nacimiento'
-                    placeholder='DD / MM / YYYY'
+                    headerText="Fecha de nacimiento"
+                    placeholder="DD / MM / YYYY"
                     containerStyle={ContainerStyle.NewAccountFormItemContainerStyle}
-                    value={dateOfBirth}
-                    onChangeText={setDateOfBirth}
+                    value={fecha_nacimiento}
+                    onChangeText={setFechaNacimiento}
                 />
                 <GenericInput
-                    headerText='Teléfono'
-                    placeholder='+123 567 89000'
+                    headerText="Teléfono"
+                    placeholder="+123 567 89000"
                     containerStyle={ContainerStyle.NewAccountFormItemContainerStyle}
-                    value={phoneNumber}
-                    onChangeText={setPhoneNumber}
+                    value={telefono}
+                    onChangeText={setTelefono}
                     keyboardType="phone-pad"
                 />
 
@@ -129,7 +142,7 @@ export default function NewAccountScreenLayout() {
 
                 <Container style={ContainerStyle.NewAccountButtonTextContainerStyle}>
                     <Button
-                        text='Registrarse'
+                        text="Registrarse"
                         containerStyle={ContainerStyle.NewAccountButtonTextContainerStyle}
                         textStyle={TextStyles.NewAccountScreenButtonText}
                         gradientStyle={ButtonStyles.gradient}

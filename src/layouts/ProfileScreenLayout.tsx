@@ -44,14 +44,14 @@ export default function ProfileLayout(){
                     style = {ContainerStyle.ProfileScreenContainer}
                 >
                     <ImageContainer 
-                        source={user.profileImage ? user.profileImage : IMAGES.DEFAULT_USER_ICON}
+                        source={IMAGES.DEFAULT_USER_ICON}
                         style={ImageStyles.ProfileScreenIconStyle}
                     />
 
                     <GenericText
                         style = {TextStyles.ProfileScreenNameStyle}
                     >
-                        {user.firstName} {user.lastName}
+                        {user.nombre}
                     </GenericText>
 
                     <Container
@@ -61,20 +61,10 @@ export default function ProfileLayout(){
                         <Container style={ContainerStyle.ProfileScreenNamesContainer}>
                             <GenericInput
                                 headerText='Nombre'
-                                placeholder={user.firstName}
-                                containerStyle={[ContainerStyle.ProfileInputContainerStyle, {width: '48%'}]}
+                                placeholder={user.nombre}
+                                containerStyle={[ContainerStyle.ProfileInputContainerStyle, {width: '100%'}]}
                                 value={name}
                                 onChangeText={SetName}
-                                maxLength={16}
-                                keyboardType="default"
-                            />
-
-                            <GenericInput
-                                headerText='Apellido'
-                                placeholder={user.lastName}
-                                containerStyle={[ContainerStyle.ProfileInputContainerStyle, {width: '48%'}]}
-                                value={lastName}
-                                onChangeText={SetLastName}
                                 maxLength={16}
                                 keyboardType="default"
                             />
@@ -82,7 +72,7 @@ export default function ProfileLayout(){
 
                         <GenericInput
                             headerText='Correo Electronico'
-                            placeholder={user.email}
+                            placeholder={user.correo}
                             containerStyle={ContainerStyle.ProfileInputContainerStyle}
                             value={email}
                             onChangeText={SetEmail}
@@ -93,7 +83,7 @@ export default function ProfileLayout(){
                         <Container style={ContainerStyle.ProfileScreenNamesContainer}>
                             <GenericInput
                                 headerText='Telefono'
-                                placeholder={user.phoneNumber}
+                                placeholder={user.telefono}
                                 containerStyle={[ContainerStyle.ProfileInputContainerStyle, {width: '40%'}]}
                                 value={phone}
                                 onChangeText={SetPhone}
@@ -103,7 +93,7 @@ export default function ProfileLayout(){
 
                             <GenericInput
                                 headerText='Fecha de nacimiento'
-                                placeholder={user.birthDate}
+                                placeholder={user.fecha_nacimiento}
                                 containerStyle={[ContainerStyle.ProfileInputContainerStyle, {width: '58%'}]}
                                 value={birthDate}
                                 onChangeText={SetBirthDate}

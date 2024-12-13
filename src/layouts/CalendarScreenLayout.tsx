@@ -27,8 +27,8 @@ export default function CalendarScreenLayout(){
             <Container
                 style = {ContainerStyle.CalendarItemScreenContainer}
             >
-                {Dates.map( day =>
-                    <CalendarItem date={day} containerStyle = {[ContainerStyle.CalendarItemStyle, {margin: '1%'}]}/>
+                {Dates.map((day, index) =>
+                    <CalendarItem key={index} date={day} containerStyle = {[ContainerStyle.CalendarItemStyle, {margin: '1%'}]}/>
                 )}
             </Container>
 
